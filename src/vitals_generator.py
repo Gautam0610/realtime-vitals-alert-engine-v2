@@ -1,6 +1,7 @@
 
 import random
 import time
+import uuid
 
 class VitalsGenerator:
     def __init__(self, baseline_heart_rate=70, baseline_resp_rate=16, baseline_temperature=37.0, baseline_spo2=98):
@@ -23,6 +24,7 @@ class VitalsGenerator:
         self.spo2 = max(70, min(self.spo2, 100))
 
         return {
+            "patient_id": str(uuid.uuid4()),  # Generate a unique patient ID
             "heart_rate": round(self.heart_rate, 2),
             "resp_rate": round(self.resp_rate, 2),
             "temperature": round(self.temperature, 2),
