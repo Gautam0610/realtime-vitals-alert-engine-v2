@@ -34,6 +34,16 @@ This project simulates real-time human vitals, detects anomalies, validates thre
     export KAFKA_TOPIC="vitals-alerts"
     ```
 
+-   **Patient Aggregation Configuration:**
+
+    -   `AGGREGATION_WINDOW`: The time window (in seconds) to aggregate alerts for a patient. Default is 60 seconds.
+    -   `MAX_BREACHES`: The maximum number of threshold breaches allowed within the aggregation window before escalating the alert. Default is 3.
+
+    ```bash
+    export AGGREGATION_WINDOW=60
+    export MAX_BREACHES=3
+    ```
+
 ### Running the Application
 
 -   Run the `main.py` script:
@@ -53,7 +63,7 @@ This project simulates real-time human vitals, detects anomalies, validates thre
 2.  Run the Docker container, passing the environment variables:
 
     ```bash
-docker run -e KAFKA_BOOTSTRAP_SERVERS="localhost:9092" -e KAFKA_TOPIC="vitals-alerts" realtime-vitals-alert-engine
+    docker run -e KAFKA_BOOTSTRAP_SERVERS="localhost:9092" -e KAFKA_TOPIC="vitals-alerts" -e AGGREGATION_WINDOW=60 -e MAX_BREACHES=3 realtime-vitals-alert-engine
     ```
 
 ## Project Structure
@@ -74,12 +84,12 @@ realtime-vitals-alert-engine-v2/
 
 ## Modules
 
--   `vitals_generator.py`: Generates realistic human vitals.
+-   `vitals_generator.py`: Generates realistic human vitals with unique patient IDs.
 -   `anomaly_generator.py`: Injects anomalies into the generated vitals.
 -   `threshold_validator.py`: Validates vitals against predefined thresholds.
 -   `alert_escalator.py`: Escalates alerts based on a predefined policy.
 -   `kafka_producer.py`: Sends messages to a Kafka topic.
--   `main.py`: Main application script that orchestrates the entire process.
+-   `main.py`: Main application script that orchestrates the entire process and implements patient-level aggregation.
 
 ## Contributing
 
